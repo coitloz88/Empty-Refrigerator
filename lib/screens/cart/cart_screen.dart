@@ -63,27 +63,13 @@ class CartScreen extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
       child: AppButton(
-        label: "Go To Check Out",
+        label: "이제 요리를 해볼까요?",
         fontWeight: FontWeight.w600,
         padding: EdgeInsets.symmetric(vertical: 30),
-        trailingWidget: getButtonPriceWidget(),
+        trailingWidget: Icon(Icons.restaurant),
         onPressed: () {
           showBottomSheet(context);
         },
-      ),
-    );
-  }
-
-  Widget getButtonPriceWidget() {
-    return Container(
-      padding: EdgeInsets.all(2),
-      decoration: BoxDecoration(
-        color: Color(0xff489E67),
-        borderRadius: BorderRadius.circular(4),
-      ),
-      child: Text(
-        "\$12.96",
-        style: TextStyle(fontWeight: FontWeight.w600),
       ),
     );
   }

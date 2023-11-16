@@ -3,16 +3,26 @@ import 'package:grocery_app/common_widgets/app_text.dart';
 import 'package:grocery_app/models/grocery_item.dart';
 import 'package:grocery_app/styles/colors.dart';
 
-class GroceryItemCardWidget extends StatelessWidget {
+class GroceryItemCardWidget extends StatefulWidget {
   GroceryItemCardWidget({Key? key, required this.item, this.heroSuffix})
       : super(key: key);
   final GroceryItem item;
   final String? heroSuffix;
 
+  @override
+  State<GroceryItemCardWidget> createState() => _GroceryItemCardWidgetState();
+}
+
+class _GroceryItemCardWidgetState extends State<GroceryItemCardWidget> {
   final double width = 174;
+
   final double height = 250;
+
   final Color borderColor = Color(0xffE2E2E2);
+
   final double borderRadius = 18;
+
+  bool isAdded = true; // TODO: Provider로 변경
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +48,10 @@ class GroceryItemCardWidget extends StatelessWidget {
             Expanded(
               child: Center(
                 child: Hero(
-                  tag: "GroceryItem:" + item.name + "-" + (heroSuffix ?? ""),
+                  tag: "GroceryItem:" +
+                      widget.item.name +
+                      "-" +
+                      (widget.heroSuffix ?? ""),
                   child: imageWidget(),
                 ),
               ),
@@ -47,28 +60,38 @@ class GroceryItemCardWidget extends StatelessWidget {
               height: 20,
             ),
             AppText(
-              text: item.name,
+              text: widget.item.name,
               fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
             AppText(
-              text: item.description,
+              text: widget.item.description,
               fontSize: 14,
               fontWeight: FontWeight.w600,
               color: Color(0xFF7C7C7C),
             ),
             SizedBox(
-              height: 20,
+              height: 16,
             ),
             Row(
               children: [
                 AppText(
-                  text: "\$${item.price.toStringAsFixed(2)}",
+                  text: "추가하기",
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
                 Spacer(),
-                addWidget()
+                Transform.scale(
+                    scale: 1.2,
+                    child: Checkbox(
+                        shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                                Radius.circular(5.0))),
+                        activeColor: AppColors.primaryColor,
+                        value: isAdded,
+                        onChanged: (value) {
+                          isAdded = value!;
+                        }))
               ],
             )
           ],
@@ -79,24 +102,7 @@ class GroceryItemCardWidget extends StatelessWidget {
 
   Widget imageWidget() {
     return Container(
-      child: Image.asset(item.imagePath),
-    );
-  }
-
-  Widget addWidget() {
-    return Container(
-      height: 45,
-      width: 45,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(17),
-          color: AppColors.primaryColor),
-      child: Center(
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
-          size: 25,
-        ),
-      ),
+      child: Image.asset(widget.item.imagePath),
     );
   }
 }

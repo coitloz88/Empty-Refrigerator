@@ -42,18 +42,11 @@ class ExploreScreen extends StatelessWidget {
         ),
         Center(
           child: AppText(
-            text: "Find Products",
+            text: "다음 요리를 만들 수 있어요!",
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: SearchBarWidget(),
-        ),
+        )
       ],
     );
   }
@@ -70,7 +63,7 @@ class ExploreScreen extends StatelessWidget {
           CategoryItem categoryItem = e.value;
           return GestureDetector(
             onTap: () {
-              onCategoryItemClicked(context, categoryItem);
+              onRecipeClicked(context, categoryItem);
             },
             child: Container(
               padding: EdgeInsets.all(10),
@@ -87,11 +80,11 @@ class ExploreScreen extends StatelessWidget {
     );
   }
 
-  void onCategoryItemClicked(BuildContext context, CategoryItem categoryItem) {
-    Navigator.of(context).push(new MaterialPageRoute(
-      builder: (BuildContext context) {
-        return CategoryItemsScreen();
-      },
-    ));
+  void onRecipeClicked(BuildContext context, CategoryItem categoryItem) {
+    // Navigator.of(context).push(new MaterialPageRoute(
+    //   builder: (BuildContext context) {
+    //     return CategoryItemsScreen();
+    //   },
+    // ));
   }
 }
