@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/common_widgets/app_button.dart';
 import 'package:grocery_app/common_widgets/app_text.dart';
-import 'package:grocery_app/screens/dashboard/dashboard_screen.dart';
+import 'package:grocery_app/screens/ingredient/bbox_display_screen.dart';
 import 'package:grocery_app/styles/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 
-class WelcomeScreen extends StatelessWidget {
-  final String imagePath = "assets/images/welcome_image.png";
+class WelcomeScreen extends StatefulWidget {
+  @override
+  State<WelcomeScreen> createState() => _WelcomeScreenState();
+}
+
+class _WelcomeScreenState extends State<WelcomeScreen> {
+  final String imagePath = "assets/images/welcome_image.jpeg";
+  XFile? _image;
+  final ImagePicker picker = ImagePicker();
 
   @override
   Widget build(BuildContext context) {
@@ -31,15 +39,19 @@ class WelcomeScreen extends StatelessWidget {
                 ),
                 welcomeTextWidget(),
                 SizedBox(
-                  height: 10,
+                  height: 16,
                 ),
                 sloganText(),
                 SizedBox(
                   height: 40,
                 ),
-                getButton(context),
+                getCameraButton(context),
                 SizedBox(
-                  height: 40,
+                  height: 16,
+                ),
+                getGalleryButton(context),
+                SizedBox(
+                  height: 50,
                 )
               ],
             ),
@@ -60,13 +72,13 @@ class WelcomeScreen extends StatelessWidget {
     return Column(
       children: [
         AppText(
-          text: "Welcome",
+          text: "냉장고를",
           fontSize: 48,
           fontWeight: FontWeight.w600,
           color: Colors.white,
         ),
         AppText(
-          text: "to our store",
+          text: "털어보자",
           fontSize: 48,
           fontWeight: FontWeight.w600,
           color: Colors.white,
@@ -77,29 +89,47 @@ class WelcomeScreen extends StatelessWidget {
 
   Widget sloganText() {
     return AppText(
-      text: "Get your grecories as fast as in hour",
+      text: "냉털냉털 지금 바로 털어보아요",
       fontSize: 16,
       fontWeight: FontWeight.w600,
       color: Color(0xffFCFCFC).withOpacity(0.7),
     );
   }
 
-  Widget getButton(BuildContext context) {
+  Widget getCameraButton(BuildContext context) {
     return AppButton(
-      label: "Get Started",
+      label: "카메라로 찍기",
       fontWeight: FontWeight.w600,
       padding: EdgeInsets.symmetric(vertical: 25),
+      trailingWidget: Icon(Icons.camera_alt),
       onPressed: () {
-        onGetStartedClicked(context);
+        getImage(context, ImageSource.camera);
       },
     );
   }
 
-  void onGetStartedClicked(BuildContext context) {
-    Navigator.of(context).pushReplacement(new MaterialPageRoute(
-      builder: (BuildContext context) {
-        return DashboardScreen();
+  Widget getGalleryButton(BuildContext context) {
+    return AppButton(
+      label: "갤러리에서 가져오기",
+      fontWeight: FontWeight.w600,
+      padding: EdgeInsets.symmetric(vertical: 25),
+      trailingWidget: Icon(Icons.photo),
+      onPressed: () {
+        getImage(context, ImageSource.gallery);
       },
-    ));
+    );
+  }
+
+  Future getImage(BuildContext context, ImageSource imageSource) async {
+    final XFile? pickedFile = await picker.pickImage(source: imageSource);
+    if (pickedFile != null) {
+      // TODO: 서버와 통신 후 넘어가도록 or 로딩 화면으로 넘어가도록 함
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => BboxDisplayScreen(
+                    imagePath: pickedFile.path,
+                  )));
+    }
   }
 }
