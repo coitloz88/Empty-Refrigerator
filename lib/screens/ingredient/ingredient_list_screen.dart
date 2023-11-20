@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:grocery_app/common_widgets/app_text.dart';
 import 'package:grocery_app/models/grocery_item.dart';
-import 'package:grocery_app/screens/cart/cart_screen.dart';
-import 'package:grocery_app/screens/explore_screen.dart';
+import 'package:grocery_app/models/ingredient_item.dart';
+import 'package:grocery_app/screens/recipe/recipe_list_screen.dart';
 import 'package:grocery_app/styles/colors.dart';
-import 'package:grocery_app/widgets/grocery_item_card_widget.dart';
 
 class IngredientListScreen extends StatefulWidget {
   @override
@@ -38,18 +36,24 @@ class _IngredientListScreenState extends State<IngredientListScreen> {
         actions: [
           GestureDetector(
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ExploreScreen()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => RecipeListScreen()));
               },
-              child: 
-              SizedBox(height: double.infinity, child: Padding(padding: EdgeInsets.all(12), child: Center(child: Text(
-                "요리하기",
-                style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.primaryColor),
-              ))),)
-              )
+              child: SizedBox(
+                height: double.infinity,
+                child: Padding(
+                    padding: EdgeInsets.all(12),
+                    child: Center(
+                        child: Text(
+                      "요리하기",
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.primaryColor),
+                    ))),
+              ))
         ],
         title: Container(
           padding: EdgeInsets.symmetric(
@@ -63,27 +67,15 @@ class _IngredientListScreenState extends State<IngredientListScreen> {
         ),
       ),
       body: SingleChildScrollView(
-        child: StaggeredGrid.count(
-          crossAxisCount: 2,
-          // I only need two card horizontally
-          children: demoItems.asMap().entries.map<Widget>((e) {
-            GroceryItem groceryItem = e.value;
-            return GestureDetector(
-              onTap: () {
-                onItemClicked(context, groceryItem);
-              },
-              child: Container(
-                padding: EdgeInsets.all(10),
-                child: GroceryItemCardWidget(
-                  item: groceryItem,
-                  heroSuffix: "explore_screen",
-                ),
-              ),
-            );
-          }).toList(),
-          mainAxisSpacing: 3.0,
-          crossAxisSpacing: 0.0, // add some space
-        ),
+        child: Column(
+            children: ingredientItemDemo.map((item) {
+          return Row(
+            children: [
+              Checkbox(value: true, onChanged: (value) {}),
+              ListTile(title: Text('- ' + item.name))
+            ],
+          );
+        }).toList()),
       ),
     );
   }
