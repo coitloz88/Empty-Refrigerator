@@ -15,75 +15,82 @@ class _IngredientListScreenState extends State<IngredientListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+    return Container(
+      decoration: BoxDecoration(
+          image: DecorationImage(
+              fit: BoxFit.cover,
+              image: AssetImage('assets/images/grocery_background.jpg'))),
+      child: Scaffold(
         backgroundColor: Colors.transparent,
-        elevation: 0,
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Container(
-            padding: EdgeInsets.only(left: 25),
-            child: Icon(
-              Icons.arrow_back_ios,
-              color: Colors.black,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          centerTitle: true,
+          automaticallyImplyLeading: false,
+          leading: GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Container(
+              padding: EdgeInsets.only(left: 25),
+              child: Icon(
+                Icons.arrow_back_ios,
+                color: Colors.black,
+              ),
+            ),
+          ),
+          actions: [
+            GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => RecipeListScreen()));
+                },
+                child: SizedBox(
+                    height: double.infinity,
+                    child: Row(children: [
+                      Center(
+                          child: Text(
+                        "요리하기",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.primaryColor),
+                      )),
+                      SizedBox(width: 12)
+                    ])))
+          ],
+          title: Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: 25,
+            ),
+            child: AppText(
+              text: "냉장고 속 재료들",
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
             ),
           ),
         ),
-        actions: [
-          GestureDetector(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => RecipeListScreen()));
-              },
-              child: SizedBox(
-                height: double.infinity,
-                child: Padding(
-                    padding: EdgeInsets.all(12),
-                    child: Center(
-                        child: Text(
-                      "요리하기",
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primaryColor),
-                    ))),
-              ))
-        ],
-        title: Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: 25,
-          ),
-          child: AppText(
-            text: "냉장고 속 재료들",
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-          ),
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-            children: ingredientItemDemo.map((item) {
-          return Padding(
-            padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
-            child: Row(
-              children: [
-                Checkbox(value: true, onChanged: (value) {}),
-                Expanded(
-                  child: AppText(
-                    text: item.name,
-                    fontSize: 20,
+        body: SingleChildScrollView(
+          child: Column(
+              children: ingredientItemDemo.map((item) {
+            return Padding(
+              padding: EdgeInsets.fromLTRB(16, 6, 16, 4),
+              child: Row(
+                children: [
+                  Checkbox(value: true, onChanged: (value) {}),
+                  Expanded(
+                    child: AppText(
+                      text: item.name,
+                      fontSize: 20,
+                    ),
                   ),
-                ),
-              ],
-            ),
-          );
-        }).toList()),
+                ],
+              ),
+            );
+          }).toList()),
+        ),
       ),
     );
   }
