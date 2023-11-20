@@ -40,9 +40,6 @@ class RecipeListScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(
-                height: 25,
-              ),
               Column(
                 children: getChildrenWithSeperator(
                   addToLastChild: false,
