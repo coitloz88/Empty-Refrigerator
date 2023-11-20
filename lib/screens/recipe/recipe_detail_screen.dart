@@ -3,6 +3,7 @@ import 'package:grocery_app/common_widgets/app_text.dart';
 import 'package:grocery_app/helpers/column_with_seprator.dart';
 import 'package:grocery_app/models/ingredient_item.dart';
 import 'package:grocery_app/models/recipe_item.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RecipeDetailScreen extends StatefulWidget {
   final RecipeItem item;
@@ -81,11 +82,17 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppText(
-                  text: "레시피 URL은 여기로!",
+                  text: "레시피 링크",
                   fontWeight: FontWeight.w600,
                   fontSize: 16),
               SizedBox(height: 4),
-              ListTile(leading: Icon(Icons.link), title: Text(url))
+              ListTile(
+                leading: Icon(Icons.link),
+                title: Text(url),
+                onTap: () {
+                  launchUrl(Uri.parse(url));
+                },
+              )
             ]));
   }
 
