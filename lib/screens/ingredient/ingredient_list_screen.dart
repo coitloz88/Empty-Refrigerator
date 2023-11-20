@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:grocery_app/common_widgets/app_text.dart';
 import 'package:grocery_app/models/grocery_item.dart';
 import 'package:grocery_app/models/ingredient_item.dart';
+import 'package:grocery_app/providers/ingredient_checked_state.dart';
+import 'package:grocery_app/providers/ingredient_list_state.dart';
 import 'package:grocery_app/screens/recipe/recipe_list_screen.dart';
 import 'package:grocery_app/styles/colors.dart';
+import 'package:provider/provider.dart';
 
 class IngredientListScreen extends StatefulWidget {
   @override
@@ -74,12 +77,26 @@ class _IngredientListScreenState extends State<IngredientListScreen> {
         ),
         body: SingleChildScrollView(
           child: Column(
-              children: ingredientItemDemo.map((item) {
+              children: context
+                  .watch<IngredientListState>()
+                  .items
+                  .asMap()
+                  .entries
+                  .map((e) {
+            int index = e.key;
+            IngredientItem item = e.value;
+
             return Padding(
               padding: EdgeInsets.fromLTRB(16, 6, 16, 4),
               child: Row(
                 children: [
-                  Checkbox(value: true, onChanged: (value) {}),
+                  Checkbox(
+                      value: context
+                          .watch<IngredientCheckedState>()
+                          .isChecked[index],
+                      onChanged: (value) {
+                        context.read<IngredientCheckedState>().toggle(index);
+                      }),
                   Expanded(
                     child: AppText(
                       text: item.name,

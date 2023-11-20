@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:grocery_app/common_widgets/app_text.dart';
 import 'package:grocery_app/helpers/column_with_seprator.dart';
 import 'package:grocery_app/models/recipe_item.dart';
+import 'package:grocery_app/providers/recipe_list_state.dart';
 import 'package:grocery_app/screens/recipe/recipe_detail_screen.dart';
+import 'package:provider/provider.dart';
 
 class RecipeListScreen extends StatelessWidget {
   @override
@@ -43,7 +45,7 @@ class RecipeListScreen extends StatelessWidget {
               Column(
                 children: getChildrenWithSeperator(
                   addToLastChild: false,
-                  widgets: recipeItemDemo.map((item) {
+                  widgets: context.watch<RecipeListState>().items.map((item) {
                     return Container(
                       padding: EdgeInsets.symmetric(
                         horizontal: 25,

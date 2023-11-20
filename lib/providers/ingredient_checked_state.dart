@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class IngredientCheckedState extends ChangeNotifier {
+class IngredientCheckedState with ChangeNotifier {
   Map<int, bool> _isChecked = {};
 
   Map<int, bool> get isChecked => _isChecked;
