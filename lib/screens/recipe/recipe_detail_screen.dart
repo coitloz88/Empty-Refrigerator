@@ -75,7 +75,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
 
   Widget getUrlWidget(String url) {
     return Padding(
-        padding: EdgeInsets.all(12),
+        padding: EdgeInsets.fromLTRB(24, 20, 24, 10),
         child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,18 +90,31 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
   }
 
   Widget getIngredientsWrapper(List<IngredientItem> items) {
+    final List<IconData> iconDatas = [
+      Icons.egg_alt,
+      Icons.local_pizza,
+      Icons.lunch_dining,
+      Icons.icecream,
+      Icons.breakfast_dining_outlined,
+      Icons.bento
+    ];
+
     return Padding(
-        padding: EdgeInsets.all(12),
+        padding: EdgeInsets.fromLTRB(24, 20, 24, 10),
         child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppText(
                   text: "필요한 재료들", fontWeight: FontWeight.w600, fontSize: 16),
-              SizedBox(height: 4),
+              SizedBox(height: 12),
               Column(
-                children: items.map((item) {
-                  return ListTile(title: Text('- ' + item.name));
+                children: items.asMap().entries.map<Widget>((e) {
+                  int index = e.key;
+                  IngredientItem item = e.value;
+                  return ListTile(
+                      leading: Icon(iconDatas[index % iconDatas.length]),
+                      title: Text(item.name));
                 }).toList(),
               )
             ]));
