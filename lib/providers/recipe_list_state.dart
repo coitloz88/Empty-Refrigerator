@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/models/recipe_item.dart';
 
-class RecipeListState extends ChangeNotifier {
+class RecipeListState with ChangeNotifier {
   List<RecipeItem> _items = [];
   
   List<RecipeItem> get items => _items;
