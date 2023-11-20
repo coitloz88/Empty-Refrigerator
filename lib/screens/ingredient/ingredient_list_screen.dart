@@ -69,11 +69,19 @@ class _IngredientListScreenState extends State<IngredientListScreen> {
       body: SingleChildScrollView(
         child: Column(
             children: ingredientItemDemo.map((item) {
-          return Row(
-            children: [
-              Checkbox(value: true, onChanged: (value) {}),
-              ListTile(title: Text('- ' + item.name))
-            ],
+          return Padding(
+            padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
+            child: Row(
+              children: [
+                Checkbox(value: true, onChanged: (value) {}),
+                Expanded(
+                  child: AppText(
+                    text: item.name,
+                    fontSize: 20,
+                  ),
+                ),
+              ],
+            ),
           );
         }).toList()),
       ),
