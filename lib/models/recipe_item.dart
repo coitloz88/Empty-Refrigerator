@@ -18,17 +18,17 @@ var recipeItemDemo = [
   RecipeItem(
       title: "김치볶음밥",
       ingredients: [
-        IngredientItem(name: "김치"),
-        IngredientItem(name: "밥"),
-        IngredientItem(name: "스팸")
+        IngredientItem(checked: true, name: "김치"),
+        IngredientItem(checked: true, name: "밥"),
+        IngredientItem(checked: true, name: "스팸")
       ],
       url: "https://www.10000recipe.com/recipe/6881806"),
   RecipeItem(
       title: "간장계란밥",
       ingredients: [
-        IngredientItem(name: "간장"),
-        IngredientItem(name: "밥"),
-        IngredientItem(name: "계란")
+        IngredientItem(checked: true, name: "간장"),
+        IngredientItem(checked: true, name: "밥"),
+        IngredientItem(checked: true, name: "계란")
       ],
       url: "https://www.10000recipe.com/recipe/3687411"),
 ];

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/common_widgets/app_button.dart';
 import 'package:grocery_app/common_widgets/app_text.dart';
+import 'package:grocery_app/providers/ingredient_checked_state.dart';
+import 'package:grocery_app/providers/ingredient_list_state.dart';
 import 'package:grocery_app/screens/ingredient/bbox_display_screen.dart';
 import 'package:grocery_app/styles/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 class WelcomeScreen extends StatefulWidget {
   @override
@@ -13,8 +16,9 @@ class WelcomeScreen extends StatefulWidget {
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
   final String imagePath = "assets/images/welcome_image.jpeg";
-  XFile? _image;
   final ImagePicker picker = ImagePicker();
+
+  bool fetching = false;
 
   @override
   Widget build(BuildContext context) {
@@ -29,33 +33,38 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             ),
           ),
           child: Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Spacer(),
-                icon(),
-                SizedBox(
-                  height: 20,
-                ),
-                welcomeTextWidget(),
-                SizedBox(
-                  height: 16,
-                ),
-                sloganText(),
-                SizedBox(
-                  height: 40,
-                ),
-                getCameraButton(context),
-                SizedBox(
-                  height: 16,
-                ),
-                getGalleryButton(context),
-                SizedBox(
-                  height: 50,
-                )
-              ],
-            ),
-          ),
+              child: !fetching
+                  ? Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Spacer(),
+                        icon(),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        welcomeTextWidget(),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        sloganText(),
+                        SizedBox(
+                          height: 40,
+                        ),
+                        getCameraButton(context),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        getGalleryButton(context),
+                        SizedBox(
+                          height: 50,
+                        )
+                      ],
+                    )
+                  : SizedBox(
+                      width: 150,
+                      height: 150,
+                      child: CircularProgressIndicator(),
+                    )),
         ));
   }
 
@@ -123,13 +132,32 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Future getImage(BuildContext context, ImageSource imageSource) async {
     final XFile? pickedFile = await picker.pickImage(source: imageSource);
     if (pickedFile != null) {
-      // TODO: 서버와 통신 후 넘어가도록 or 로딩 화면으로 넘어가도록 함
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => BboxDisplayScreen(
-                    imagePath: pickedFile.path,
-                  )));
+      setState(() {
+        fetching = true;
+      });
+
+      final dynamic response = await context
+          .read<IngredientListState>()
+          .fetchIngredientData(pickedFile);
+
+      if (response != null &&
+          response.containsKey('bbox') &&
+          response.containsKey('ingredient')) {
+        context.read<IngredientListState>().setBytes(response['bbox']);
+        context.read<IngredientListState>().addItems(response['ingredient']);
+
+        // 페이지 이동
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => BboxDisplayScreen(
+                      base64String: response['bbox'],
+                    )));
+
+        setState(() {
+          fetching = false;
+        });
+      }
     }
   }
 }
