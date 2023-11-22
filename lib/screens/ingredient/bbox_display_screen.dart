@@ -1,14 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:grocery_app/common_widgets/app_button.dart';
-import 'package:grocery_app/models/ingredient_item.dart';
-import 'package:grocery_app/providers/ingredient_checked_state.dart';
-import 'package:grocery_app/providers/ingredient_list_state.dart';
 import 'package:grocery_app/screens/ingredient/ingredient_list_screen.dart';
 import 'package:grocery_app/styles/colors.dart';
-import 'package:provider/provider.dart';
 
 class BboxDisplayScreen extends StatefulWidget {
   final String base64String;
