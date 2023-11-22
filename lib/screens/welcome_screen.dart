@@ -5,6 +5,7 @@ import 'package:grocery_app/providers/ingredient_list_state.dart';
 import 'package:grocery_app/screens/ingredient/bbox_display_screen.dart';
 import 'package:grocery_app/styles/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:grocery_app/utils.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -136,22 +137,33 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         fetching = true;
       });
 
-      final dynamic response = await context
+      final dynamic detectedResponse = await context
           .read<IngredientListState>()
           .fetchIngredientData(pickedFile);
 
-      if (response != null &&
-          response.containsKey('bbox') &&
-          response.containsKey('ingredient')) {
-        context.read<IngredientListState>().setBytes(response['bbox']);
-        context.read<IngredientListState>().addItems(response['ingredient']);
+      final dynamic defaultIngredientResponse =
+          await context.read<IngredientListState>().fetchDefaultIngredients();
+
+      if (detectedResponse != null &&
+          detectedResponse.containsKey('bbox') &&
+          detectedResponse.containsKey('ingredient')) {
+        context.read<IngredientListState>().setBytes(detectedResponse['bbox']);
+        context
+            .read<IngredientListState>()
+            .addItems(detectedResponse['ingredient']);
+
+        if (defaultIngredientResponse != null &&
+            defaultIngredientResponse.containsKey('ingredient')) {
+          context.read<IngredientListState>().addDefaultItems(
+              chooseRandomTenItems(defaultIngredientResponse['ingredient']));
+        }
 
         // 페이지 이동
         Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => BboxDisplayScreen(
-                      base64String: response['bbox'],
+                      base64String: detectedResponse['bbox'],
                     )));
 
         setState(() {

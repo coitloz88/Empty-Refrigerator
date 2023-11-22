@@ -11,8 +11,10 @@ import 'package:image_picker/image_picker.dart';
 class IngredientListState with ChangeNotifier {
   late Uint8List _bytes;
   List<IngredientItem> _items = [];
+  List<IngredientItem> _defaultItems = [];
 
   List<IngredientItem> get items => _items;
+  List<IngredientItem> get defaultItems => _defaultItems;
   Uint8List get bytes => _bytes;
 
   void addItems(List<dynamic> newItems) {
@@ -24,8 +26,23 @@ class IngredientListState with ChangeNotifier {
     notifyListeners();
   }
 
+  void addDefaultItems(List<dynamic> defaultItems) {
+    _defaultItems = defaultItems
+        .asMap()
+        .entries
+        .map<IngredientItem>(
+            (e) => IngredientItem(id: e.key, name: e.value, checked: true))
+        .toList();
+    notifyListeners();
+  }
+
   void toggle(index) {
     _items[index].checked = !_items[index].checked;
+    notifyListeners();
+  }
+  
+  void toggleDefault(index) {
+    _defaultItems[index].checked = !_defaultItems[index].checked;
     notifyListeners();
   }
 
@@ -49,6 +66,20 @@ class IngredientListState with ChangeNotifier {
       debugPrint(
           'fetchIngredientData response status code: ${response.statusCode}');
       debugPrint('fetchIngredientData response body: ${response.body}');
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return jsonDecode(utf8.decode(response.bodyBytes));
+      }
+    } catch (error) {
+      debugPrint(error.toString());
+    }
+  }
+
+  Future fetchDefaultIngredients() async {
+    var url = Uri.http(serverUrl, 'list_ingredient');
+    try {
+      var response =
+          await http.get(url, headers: {"Content-Type": "application/json"});
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         return jsonDecode(utf8.decode(response.bodyBytes));
