@@ -15,7 +15,6 @@ class IngredientListScreen extends StatefulWidget {
 
 class _IngredientListScreenState extends State<IngredientListScreen> {
   // List<bool> isAdded = List<bool>.generate(demoItems.length, (index) => true);
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -91,11 +90,11 @@ class _IngredientListScreenState extends State<IngredientListScreen> {
               child: Row(
                 children: [
                   Checkbox(
-                      value: context
-                          .watch<IngredientCheckedState>()
-                          .isChecked[index],
+                      fillColor:
+                          MaterialStateProperty.all(AppColors.primaryColor),
+                      value: item.checked,
                       onChanged: (value) {
-                        context.read<IngredientCheckedState>().toggle(index);
+                        context.read<IngredientListState>().toggle(index);
                       }),
                   Expanded(
                     child: AppText(
