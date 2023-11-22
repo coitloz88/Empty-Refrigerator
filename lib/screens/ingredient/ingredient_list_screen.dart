@@ -50,11 +50,6 @@ class _IngredientListScreenState extends State<IngredientListScreen> {
                       barrierDismissible: true,
                       builder: (BuildContext context) {
                         return StatefulBuilder(builder: (context, setState) {
-                          int maxNum = Provider.of<IngredientListState>(context,
-                                  listen: false)
-                              .items
-                              .where((element) => element.checked)
-                              .length;
                           return Dialog(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(18.0)),
@@ -101,7 +96,7 @@ class _IngredientListScreenState extends State<IngredientListScreen> {
                                     flex: 2,
                                   ),
                                   AppText(
-                                    text: "몇 개의 재료로 요리해볼까요?",
+                                    text: "얼마나 많은 레시피를 원하시나요?",
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
                                     color: Color(0xff7C7C7C),
@@ -131,24 +126,13 @@ class _IngredientListScreenState extends State<IngredientListScreen> {
                                       ),
                                       IconButton(
                                           onPressed: () {
-                                            int maxNum = Provider.of<
-                                                        IngredientListState>(
-                                                    context,
-                                                    listen: false)
-                                                .items
-                                                .where((element) =>
-                                                    element.checked)
-                                                .length;
                                             setState(() {
-                                              if (k < maxNum) ++k;
+                                              ++k;
                                             });
                                           },
                                           icon: Icon(
-                                            Icons.chevron_right_outlined,
-                                            color: k < maxNum
-                                                ? Colors.grey[800]
-                                                : Colors.grey[300],
-                                          ))
+                                              Icons.chevron_right_outlined,
+                                              color: Colors.grey[800]))
                                     ],
                                   ),
                                   Spacer(
@@ -194,7 +178,7 @@ class _IngredientListScreenState extends State<IngredientListScreen> {
                             ),
                           );
                         });
-                      }).then((_) => {k = 1});
+                      });
                   setState(() {
                     fetching = false;
                   });
@@ -227,36 +211,93 @@ class _IngredientListScreenState extends State<IngredientListScreen> {
         body: !fetching
             ? SingleChildScrollView(
                 child: Column(
-                    children: context
-                        .watch<IngredientListState>()
-                        .items
-                        .asMap()
-                        .entries
-                        .map((e) {
-                  int index = e.key;
-                  IngredientItem item = e.value;
+                  children: [
+                    Center(
+                        child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 25,
+                      ),
+                      child: Divider(
+                        thickness: 1,
+                      ),
+                    )),
+                    Column(
+                        children: context
+                            .watch<IngredientListState>()
+                            .items
+                            .asMap()
+                            .entries
+                            .map((e) {
+                      int index = e.key;
+                      IngredientItem item = e.value;
 
-                  return Padding(
-                    padding: EdgeInsets.fromLTRB(16, 6, 16, 4),
-                    child: Row(
-                      children: [
-                        Checkbox(
-                            fillColor: MaterialStateProperty.all(
-                                AppColors.primaryColor),
-                            value: item.checked,
-                            onChanged: (value) {
-                              context.read<IngredientListState>().toggle(index);
-                            }),
-                        Expanded(
-                          child: AppText(
-                            text: item.name,
-                            fontSize: 20,
-                          ),
+                      return Padding(
+                        padding: EdgeInsets.fromLTRB(16, 6, 16, 4),
+                        child: Row(
+                          children: [
+                            Checkbox(
+                                fillColor: MaterialStateProperty.all(
+                                    AppColors.primaryColor),
+                                value: item.checked,
+                                onChanged: (value) {
+                                  context
+                                      .read<IngredientListState>()
+                                      .toggle(index);
+                                }),
+                            Expanded(
+                              child: AppText(
+                                text: item.name,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  );
-                }).toList()),
+                      );
+                    }).toList()),
+                    Center(
+                        child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 25,
+                      ),
+                      child: Divider(
+                        thickness: 1,
+                      ),
+                    )),
+                    Column(
+                        children: context
+                            .watch<IngredientListState>()
+                            .defaultItems
+                            .asMap()
+                            .entries
+                            .map((e) {
+                      int index = e.key;
+                      IngredientItem item = e.value;
+
+                      return Padding(
+                        padding: EdgeInsets.fromLTRB(16, 6, 16, 4),
+                        child: Row(
+                          children: [
+                            Checkbox(
+                                fillColor: MaterialStateProperty.all(
+                                    AppColors.primaryColor),
+                                value: item.checked,
+                                onChanged: (value) {
+                                  context
+                                      .read<IngredientListState>()
+                                      .toggleDefault(index);
+                                }),
+                            Expanded(
+                              child: AppText(
+                                text: item.name,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }).toList()),
+                  ],
+                ),
               )
             : Center(
                 child: SizedBox(

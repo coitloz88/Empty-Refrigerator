@@ -41,7 +41,7 @@ class _BboxDisplayScreenState extends State<BboxDisplayScreen> {
                     children: [
                       AppButton(
                         label: '리스트로 보기',
-                        onPressed: () {
+                        onPressed: () async {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
