@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:grocery_app/common_widgets/app_text.dart';
 import 'package:grocery_app/models/grocery_item.dart';
 import 'package:grocery_app/models/ingredient_item.dart';
-import 'package:grocery_app/providers/ingredient_checked_state.dart';
 import 'package:grocery_app/providers/ingredient_list_state.dart';
 import 'package:grocery_app/screens/recipe/recipe_list_screen.dart';
 import 'package:grocery_app/styles/colors.dart';

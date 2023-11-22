@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/common_widgets/app_button.dart';
 import 'package:grocery_app/common_widgets/app_text.dart';
-import 'package:grocery_app/providers/ingredient_checked_state.dart';
 import 'package:grocery_app/providers/ingredient_list_state.dart';
 import 'package:grocery_app/screens/ingredient/bbox_display_screen.dart';
 import 'package:grocery_app/styles/colors.dart';
