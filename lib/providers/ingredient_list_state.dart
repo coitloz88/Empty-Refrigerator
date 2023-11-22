@@ -57,4 +57,23 @@ class IngredientListState with ChangeNotifier {
       debugPrint(error.toString());
     }
   }
+
+  Future fetchRecipes(int k) async {
+    var url = Uri.http(serverUrl, 'recipe');
+    try {
+      var response = await http.post(url,
+          headers: {"Content-Type": "application/json"},
+          body: json.encode({
+            'ingredient':
+                _items.where((e) => e.checked).map((e) => e.name).toList(),
+            'k': k
+          }));
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return jsonDecode(utf8.decode(response.bodyBytes));
+      }
+    } catch (error) {
+      debugPrint(error.toString());
+    }
+  }
 }

@@ -62,7 +62,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   : SizedBox(
                       width: 150,
                       height: 150,
-                      child: CircularProgressIndicator(),
+                      child: CircularProgressIndicator(
+                          color: AppColors.primaryColor),
                     )),
         ));
   }

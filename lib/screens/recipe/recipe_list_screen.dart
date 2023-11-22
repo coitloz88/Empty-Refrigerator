@@ -17,6 +17,11 @@ class RecipeListScreen extends StatelessWidget {
         automaticallyImplyLeading: false,
         leading: GestureDetector(
           onTap: () {
+            // Navigator.pushAndRemoveUntil(
+            //     context,
+            //     MaterialPageRoute(
+            //         builder: (BuildContext context) => WelcomeScreen()),
+            //     (route) => false);
             Navigator.pop(context);
           },
           child: Container(
