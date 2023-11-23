@@ -7,7 +7,7 @@
 
 ## Flow
 
-[샘플 동영상 링크](https://drive.google.com/file/d/1qxdFEQTd3B9T7glfZy8PfjjmlgFyhshK/view?usp=sharing)
+[샘플 동영상 링크](https://youtu.be/Th7LCzJ4DkY?si=tlol-wiA4HQqfjB6)
 
 ## Screens  
 - Splash Screen  
