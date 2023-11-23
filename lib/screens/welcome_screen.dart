@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:grocery_app/common_widgets/app_button.dart';
 import 'package:grocery_app/common_widgets/app_text.dart';
+import 'package:grocery_app/common_widgets/loading_indicator.dart';
 import 'package:grocery_app/providers/ingredient_list_state.dart';
 import 'package:grocery_app/screens/ingredient/bbox_display_screen.dart';
 import 'package:grocery_app/styles/colors.dart';
@@ -60,12 +62,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         )
                       ],
                     )
-                  : SizedBox(
-                      width: 150,
-                      height: 150,
-                      child: CircularProgressIndicator(
-                          color: AppColors.primaryColor),
-                    )),
+                  : LoadingIndicator()),
         ));
   }
 
@@ -155,7 +152,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         if (defaultIngredientResponse != null &&
             defaultIngredientResponse.containsKey('ingredient')) {
           context.read<IngredientListState>().addDefaultItems(
-              chooseRandomItemsOfNum(defaultIngredientResponse['ingredient'], 20));
+              chooseRandomItemsOfNum(
+                  defaultIngredientResponse['ingredient'], 25));
         }
 
         // 페이지 이동
@@ -169,6 +167,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         setState(() {
           fetching = false;
         });
+      } else {
+        Fluttertoast.showToast(
+            msg: "재료 추적에 실패했습니다.",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM);
+        fetching = false;
       }
     }
   }
