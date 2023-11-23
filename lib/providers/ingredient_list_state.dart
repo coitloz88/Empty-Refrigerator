@@ -40,7 +40,7 @@ class IngredientListState with ChangeNotifier {
     _items[index].checked = !_items[index].checked;
     notifyListeners();
   }
-  
+
   void toggleDefault(index) {
     _defaultItems[index].checked = !_defaultItems[index].checked;
     notifyListeners();
@@ -96,7 +96,11 @@ class IngredientListState with ChangeNotifier {
           headers: {"Content-Type": "application/json"},
           body: json.encode({
             'ingredient':
-                _items.where((e) => e.checked).map((e) => e.name).toList(),
+                (_items.where((e) => e.checked).map((e) => e.name).toList()) +
+                    (_defaultItems
+                        .where((e) => e.checked)
+                        .map((e) => e.name)
+                        .toList()),
             'k': k
           }));
 

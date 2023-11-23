@@ -37,7 +37,7 @@ class RecipeListScreen extends StatelessWidget {
             horizontal: 25,
           ),
           child: AppText(
-            text: "가능한 레시피들",
+            text: "Recipes",
             fontWeight: FontWeight.bold,
             fontSize: 20,
           ),

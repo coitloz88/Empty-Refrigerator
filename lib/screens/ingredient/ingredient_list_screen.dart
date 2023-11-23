@@ -202,7 +202,7 @@ class _IngredientListScreenState extends State<IngredientListScreen> {
               horizontal: 25,
             ),
             child: AppText(
-              text: "냉장고 속 재료들",
+              text: "Ingredients",
               fontWeight: FontWeight.bold,
               fontSize: 20,
             ),
@@ -221,6 +221,9 @@ class _IngredientListScreenState extends State<IngredientListScreen> {
                         thickness: 1,
                       ),
                     )),
+                    AppText(text: "냉장고 속 재료")
+                    ,
+
                     Column(
                         children: context
                             .watch<IngredientListState>()

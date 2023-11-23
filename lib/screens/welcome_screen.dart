@@ -155,7 +155,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         if (defaultIngredientResponse != null &&
             defaultIngredientResponse.containsKey('ingredient')) {
           context.read<IngredientListState>().addDefaultItems(
-              chooseRandomTenItems(defaultIngredientResponse['ingredient']));
+              chooseRandomItemsOfNum(defaultIngredientResponse['ingredient'], 20));
         }
 
         // 페이지 이동
